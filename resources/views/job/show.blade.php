@@ -1,0 +1,261 @@
+@extends('layouts.fe')
+
+@section('title')
+    Job Offer
+@endsection
+@push('style')
+<link rel="stylesheet" href="{{ asset('mazer/assets/extensions/filepond/filepond.css') }}">
+<link rel="stylesheet" href="{{ asset('mazer/assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
+<link rel="stylesheet" href="{{ asset('mazer/assets/extensions/toastify-js/src/toastify.css') }}">
+<link rel="stylesheet" href="{{ asset('mazer/assets/css/pages/filepond.css') }}">
+@endpush
+@section('content')
+    <div class="card">
+        <div class="card-header">
+            <a href="{{ route('job.index') }}" class="btn btn-primary">Back</a>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <th>Posisi</th>
+                    <th>:</th>
+                    <td>{{ $job->posisi }}</td>
+                </tr>
+                <tr>
+                    <th>Min. GPA</th>
+                    <th>:</th>
+                    <td>{{ $job->gpa }}</td>
+                </tr>
+                <tr>
+                    <th>Min. Semester</th>
+                    <th>:</th>
+                    <td>{{ $job->semester }}</td>
+                </tr>
+                <tr>
+                    <th>Min. Pengalaman Kerja</th>
+                    <th>:</th>
+                    <td>{{ $job->pengalaman_kerja }}</td>
+                </tr>
+                <tr>
+                    <th>Deskripsi</th>
+                    <th>:</th>
+                    <td>{{ $job->deskripsi }}</td>
+                </tr>
+                <tr>
+                    <th>Responsible</th>
+                    <th>:</th>
+                    <td>{{ $job->responsible }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <th>:</th>
+                    <td>
+                        <span class="badge text-uppercase text-bg-{{ $job->status == "close" ? "danger" : "success" }}">{{ $job->status }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @if (Auth::user()->role == "admin")
+        <div class="card">
+            <div class="card-header">
+                Pelamar
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>GPA</th>
+                            <th>Semester</th>
+                            <th>Pengalaman Kerja</th>
+                            <th>Institusi/Universitas</th>
+                            <th>CV</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($jobs as $item)
+                           <tr>
+                                <th>{{$item->user->name}}</th>
+                                <td>
+                                    {{$item->gpa}} - <span class="text-uppercase"> {{$item->status_gpa }}</span>
+                                </td>
+                                <td>
+                                    {{$item->semester}} - <span class="text-uppercase"> {{$item->status_semester }}</span>
+                                </td>
+                                <td>
+                                    {{$item->pengalaman_kerja}} - <span class="text-uppercase"> {{$item->status_pengalaman_kerja }}</span>
+                                </td>
+                                <td>
+                                    {{$item->institution}}
+                                </td>
+                                <td class="text-uppercase">
+                                    {{-- <button class="btn btn-info">Download CV</button> --}}
+                                    {{$item->status}}
+                                </td>
+                                <td>
+                                    <a href="{{ route('pelamaran.show', $item->id) }}" class="btn btn-warning">Detail Lamaran</a>
+                                </td>
+                            </tr> 
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @else
+    <div class="card mt-2">
+        <div class="card-header">
+            Ajukan Lamaranmu
+        </div>
+        <div class="card-body">
+            @if (Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ Session::get('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            @endif
+            {{-- {{App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status']}} --}}
+            @if (count(App\Models\Pelamaran::where('user_id', Auth::user()->id)->where('offer_id', $job->id)->get()) > 0)
+                @if (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "pelamaran diajukan")
+                <div class="alert alert-success fade show" role="alert">
+                    Pelamaranmu telah diajukan, tunggu informasi berikutnya!!
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                  </div>
+                  <table class="table">
+                    <tr>
+                        <th>Status</th>
+                        <th>:</th>
+                        <td>
+                            <span class="badge text-uppercase text-bg-success">{{ App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] }}</span>
+                        </td>
+                    </tr>
+                </table>
+                @elseif(App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "lolos tahap pelamaran")
+                <div class="alert alert-success fade show" role="alert">
+                    Segera Upload File Jawabanmu
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                  </div>
+                  <table class="table">
+                    <tr>
+                        <th>
+                            Download Soal
+                        </th>
+                        <th>:</th>
+                        <th>
+                            {{-- <button class="btn btn-info">Download Soal</button> --}}
+                            <a href="{{ route('downloadSoal.download', App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->id) }}" class="btn btn-info">Download Soal</a>
+                        </th>
+                    </tr>
+                  </table>
+
+                  <form action="{{ route('ujian.update', App\Models\Ujian::where("pelamaran_id", App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->get()[0]->id)->get()[0]->id) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('put')
+                    <input type="hidden" name="status" value="telah upload jawaban">
+                    <div class="form-group">
+                        <label for="">File Jawaban</label>
+                    <input type="file" name="file_jawaban" id="" class="form-control">
+                    </div>
+                    <div class="form-group mt-2">
+                        <button class="btn btn-primary">Submit Jawaban</button>
+                    </div>
+                  </form>
+                  @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->get()[0]->status == "telah upload jawaban")
+                  <div class="alert alert-success fade show" role="alert">
+                      Jawabanmu telah disubmit, tunggu informasi berikutnya!!
+                      {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                    </div>
+                    <table class="table">
+                      <tr>
+                          <th>Status</th>
+                          <th>:</th>
+                          <td>
+                              <span class="badge text-uppercase text-bg-success">{{ App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] }}</span>
+                          </td>
+                      </tr>
+                  </table>
+                  @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "lolos tahap ujian")
+                  <div class="alert alert-success fade show" role="alert">
+                      Selamat Kamu Lolos tahap ujian, tunggu informasi berikutnya ya!!!
+                      {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                    </div>
+                    @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "gagal tahap pelamaran")
+                  <div class="alert alert-danger fade show" role="alert">
+                      Maaf kamu tidak lolos tahap pelamaran, tetap semangat ya!!!
+                      {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                    </div>
+                    @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "gagal tahap ujian")
+                  <div class="alert alert-danger fade show" role="alert">
+                      Maaf kamu tidak lolos tahap ujian, tetap semangat ya!!!
+                      {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                    </div>
+                    @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "tidak diterima interview")
+                  <div class="alert alert-danger fade show" role="alert">
+                      Maaf kamu tidak lolos tahap interview, tetap semangat ya!!!
+                      {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                    </div>
+                    @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "pending interview")
+                    <div class="alert alert-success fade show" role="alert">
+                        Selamat Kamu Lolos tahap interview!!! - Jadwal Interview : {{ App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where('offer_id', $job->id)->get()[0]->id)->get()[0]->waktu }}
+                        {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                      </div>
+                      <a href="{{ App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where('offer_id', $job->id)->get()[0]->id)->get()[0]->link_google_meet }}" class="btn btn-success">Link Meeting</a>
+                    @elseif(App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "diterima")
+                    <div class="alert alert-success fade show" role="alert">
+                        Selamat Kamu diterima di pekerjaan ini!!
+                        {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                      </div>
+                @endif
+            @else
+            <form action="{{ route('pelamaran.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="status" value="pelamaran diajukan">
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                <input type="hidden" name="offer_id" value="{{ $job->id }}">
+                <div class="form-group">
+                    <label for="">GPA</label>
+                    <input type="number" name="gpa" class="form-control mt-2">
+                </div>
+                <div class="form-group">
+                    <label for="">Semester</label>
+                    <input type="number" name="semester" class="form-control mt-2">
+                </div>
+                <div class="form-group">
+                    <label for="">Pengalaman Kerja</label>
+                    <input type="number" name="pengalaman_kerja" class="form-control mt-2">
+                </div>
+                <div class="form-group">
+                    <label for="">Deskripsi Dirimu</label>
+                    {{-- <input type="number" name="gpa" class="form-control mt-2"> --}}
+                    <textarea name="deskripsi_pelamar" id="" cols="30" rows="10" class="form-control mt-2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="">Institution/University</label>
+                    <input type="text" name="institution" class="form-control mt-2">
+                </div>
+                <div class="form-group">
+                    <label for="">CV</label>
+                    <input type="file" class="form-control mt-2" name="cv">
+                    {{-- <input type="number" name="gpa" class="form-control mt-2"> --}}
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary mt-2">Submit</button>
+                </div>
+            </form>
+            
+            @endif
+        </div>
+    </div>
+    @endif
+@endsection
+@push('scripts')
+{{-- <script src="{{ asset('mazer/assets/extensions/jquery/jquery.min.js') }}"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+<script src="{{ asset('mazer/assets/js/pages/datatables.js') }}"></script> --}}
+
+<script src="{{ asset('mazer/assets/extensions/filepond/filepond.js') }}"></script>
+<script src="{{ asset('mazer/assets/extensions/toastify-js/src/toastify.js') }}"></script>
+<script src="{{ asset('mazer/assets/js/pages/filepond.js') }}"></script>
+@endpush
