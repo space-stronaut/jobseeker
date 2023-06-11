@@ -43,7 +43,8 @@ class UjianController extends Controller
 
         Ujian::create([
             'pelamaran_id' => $request->pelamaran_id,
-            'file_soal' => $data
+            'file_soal' => $data,
+            'batas_pengerjaan' => $request->batas_pengerjaan
         ]);
 
         Notification::create([
@@ -55,6 +56,15 @@ class UjianController extends Controller
 
         return redirect()->back();
 
+    }
+
+    public function batas(Request $request, string $id)
+    {
+        Ujian::find($id)->update([
+            'batas_pengerjaan' => $request->batas_pengerjaan
+        ]);
+
+        return redirect()->back();
     }
 
     /**

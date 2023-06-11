@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    @if (Auth::user()->role == "admin")
+    @if (Auth::user()->role != "pelamar")
         <div class="card">
             <div class="card-header">
                 Pelamar
@@ -133,8 +133,18 @@
                     </tr>
                 </table>
                 @elseif(App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "lolos tahap pelamaran")
+                {{-- {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)}} --}}
+                {{-- {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->first()["batas_pengerjaan"] > date('Y-m-d') ? 'true' : 'false'}} --}}
+                {{-- {{date('Y-m-d')}} --}}
+                @if (date('Y-m-d') > App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->first()["batas_pengerjaan"])
+                <div class="alert alert-danger fade show" role="alert">
+                    Maaf kamu sudah tidak bisa lagi mengikuti ujian, karena sudah melebihi tanggal batas pengerjaan
+                    {{-- Segera Upload File Jawabanmu s/d {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->first()["batas_pengerjaan"]}} --}}
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                  </div>
+                @else
                 <div class="alert alert-success fade show" role="alert">
-                    Segera Upload File Jawabanmu
+                    Segera Upload File Jawabanmu s/d {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->first()["batas_pengerjaan"]}}
                     {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
                   </div>
                   <table class="table">
@@ -149,7 +159,10 @@
                         </th>
                     </tr>
                   </table>
-
+                  @endif
+                  @if (date('Y-m-d') > App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->first()["batas_pengerjaan"])
+                    <div></div>
+                  @else
                   <form action="{{ route('ujian.update', App\Models\Ujian::where("pelamaran_id", App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->get()[0]->id)->get()[0]->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
@@ -162,6 +175,8 @@
                         <button class="btn btn-primary">Submit Jawaban</button>
                     </div>
                   </form>
+                  @endif
+                  
                   @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->get()[0]->status == "telah upload jawaban")
                   <div class="alert alert-success fade show" role="alert">
                       Jawabanmu telah disubmit, tunggu informasi berikutnya!!

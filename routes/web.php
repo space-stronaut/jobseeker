@@ -37,3 +37,4 @@ Route::get('/pelamaran/download/{id}', [PelamaranController::class, 'download'])
 Route::get('/ujian/soal/{id}', [UjianController::class, 'downloadSoal'])->name('downloadSoal.download');
 Route::get('/ujian/jawaban/{id}', [UjianController::class, 'downloadJawaban'])->name('downloadJawaban.download');
 Route::resource('user', UserController::class);
+Route::put('/ujian/batas/{id}', [UjianController::class, 'batas'])->name('ujian.batas');

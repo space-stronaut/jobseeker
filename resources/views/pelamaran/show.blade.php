@@ -87,6 +87,7 @@
                                 <input type="hidden" name="pelamaran_id" value="{{ $pelamaran->id }}">
                                 <input type="hidden" name="status" value="lolos tahap pelamaran">
                                 <input type="file" name="file_soal" id="" class="form-control">
+                                <input type="date" name="batas_pengerjaan" id="" class="form-control">
                                 <button class="btn btn-primary mt-3">Submit Soal</button>
                             </form>
                             </div>
@@ -101,6 +102,26 @@
                         <button class="btn btn-danger ms-2">Tetapkan Sebagai Gagal Tahap Pelamaran</button>
                     </form>
                 </div>
+            @elseif($pelamaran->status == "lolos tahap pelamaran" && Auth::user()->role == "hr")
+            <table class="table">
+                <tr>
+                <th>Batas Pengerjaan</th>
+                <th>:</th>
+                <td>{{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->batas_pengerjaan}}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <th>:</th>
+                <td>Belum Dikerjakan</td>
+            </tr>
+            </table>
+            <form action="{{ route('ujian.batas', App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->id) }}" method="post">
+                @csrf
+                @method('put')
+                <label for="">Batas Pengerjaan</label>
+                <input type="date" name="batas_pengerjaan" value="{{ App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->batas_pengerjaan }}" id="" class="form-control">
+                <button class="btn btn-success">Ubah Batas Pengerjaan</button>
+            </form>
             @elseif($pelamaran->status == "telah upload jawaban" && Auth::user()->role == "tm")
             <table class="table">
                 <tr>
