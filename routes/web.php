@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\carreer\JobOfferController as CarreerJobOfferController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobOfferController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PelamaranController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UjianController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -38,3 +40,6 @@ Route::get('/ujian/soal/{id}', [UjianController::class, 'downloadSoal'])->name('
 Route::get('/ujian/jawaban/{id}', [UjianController::class, 'downloadJawaban'])->name('downloadJawaban.download');
 Route::resource('user', UserController::class);
 Route::put('/ujian/batas/{id}', [UjianController::class, 'batas'])->name('ujian.batas');
+Route::resource('kandidatoffer', CarreerJobOfferController::class);
+Route::resource('profile', ProfileController::class);
+Route::post('/pdf/rekapan', [PelamaranController::class, 'cetak'])->name('pelamar.cetak');

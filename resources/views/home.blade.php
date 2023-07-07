@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+@if (Auth::user()->role !== "pelamar")
 <div class="row">
     <div class="col-6 col-lg-3 col-md-6">
         <div class="card">
@@ -75,4 +76,23 @@
         </div>
     </div>
 </div>
+@else
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                <div class="card-body">
+                    
+
+                    {{-- {{ __('You are logged in!') }} --}}
+                    Hello, {{Auth::user()->name}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 @endsection

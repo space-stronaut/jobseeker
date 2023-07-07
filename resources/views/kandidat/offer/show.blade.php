@@ -1,4 +1,4 @@
-@extends('layouts.fe')
+@extends('layouts.carreer')
 
 @section('title')
     Job Offer
@@ -10,9 +10,10 @@
 <link rel="stylesheet" href="{{ asset('mazer/assets/css/pages/filepond.css') }}">
 @endpush
 @section('content')
+<div class="container-fluid" style="margin-bottom: 50px">
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('job.index') }}" class="btn btn-primary">Back</a>
+            <a href="{{ route('kandidatoffer.index') }}" class="btn btn-primary">Back</a>
         </div>
         <div class="card-body">
             <table class="table">
@@ -71,9 +72,7 @@
                             <th>Semester</th>
                             <th>Pengalaman Kerja</th>
                             <th>Institusi/Universitas</th>
-                            {{-- <th>CV</th> --}}
-                            {{-- <th>I</th> --}}
-                            <th>Status</th>
+                            <th>CV</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -82,15 +81,13 @@
                            <tr>
                                 <th>{{$item->user->name}}</th>
                                 <td>
-                                    <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->gpa . " - " .$item->status_gpa}}</div>
+                                    {{$item->gpa}} - <span class="text-uppercase"> {{$item->status_gpa }}</span>
                                 </td>
                                 <td>
-                                    <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->semester . " - " . $item->status_semester}}</div>
-                                    {{-- {{$item->semester}} - <span class="text-uppercase"> {{$item->status_semester }}</span> --}}
+                                    {{$item->semester}} - <span class="text-uppercase"> {{$item->status_semester }}</span>
                                 </td>
                                 <td>
-                                    <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->pengalaman_kerja . " - " . $item->status_pengalaman_kerja}}</div>
-                                    {{-- {{$item->pengalaman_kerja}} - <span class="text-uppercase"> {{$item->status_pengalaman_kerja }}</span> --}}
+                                    {{$item->pengalaman_kerja}} - <span class="text-uppercase"> {{$item->status_pengalaman_kerja }}</span>
                                 </td>
                                 <td>
                                     {{$item->institution}}
@@ -212,7 +209,8 @@
                             <th>:</th>
                             <th>
                                 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Lihat Nilai
   </button>
   
@@ -222,19 +220,20 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Nilai Kamu</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
             {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->nilai}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
       </div>
     </div>
   </div>
-                                {{-- {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->nilai}} --}}
                             </th>
                         </tr>
                     </table>
@@ -255,7 +254,7 @@
                     </div>
                     @elseif (App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['status'] == "pending interview")
                     <div class="alert alert-success fade show" role="alert">
-                        Selamat kamu masuk tahap interview - Jadwal Interview : {{ App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where('offer_id', $job->id)->get()[0]->id)->get()[0]->waktu }}
+                        Selamat Kamu Masuk tahap interview!!! - Jadwal Interview : {{ App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where('offer_id', $job->id)->get()[0]->id)->get()[0]->waktu }}
                         {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
                       </div>
                       <a href="{{ App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where('offer_id', $job->id)->get()[0]->id)->get()[0]->link_google_meet }}" class="btn btn-success">Link Meeting</a>
@@ -272,7 +271,8 @@
                             <th>:</th>
                             <th>
                                 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Lihat Nilai
   </button>
   
@@ -282,19 +282,20 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Nilai Kamu</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
             {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->nilai}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
       </div>
     </div>
   </div>
-                                {{-- {{App\Models\Ujian::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->nilai}} --}}
                             </th>
                         </tr>
                         <tr>
@@ -303,28 +304,32 @@
                             </th>
                             <th>:</th>
                             <th>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#interviewModal">
-                                    Lihat Nilai
-                                  </button>
-                                  
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="interviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Nilai Kamu</h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            {{App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->nilai}}
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                          {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                <!-- Button trigger modal -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#interviewModal">
+    Lihat Nilai
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="interviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nilai Kamu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {{App\Models\Interview::where('pelamaran_id', App\Models\Pelamaran::where('user_id', Auth::user()->id)->where("offer_id", $job->id)->first()['id'])->get()[0]->nilai}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+        </div>
+      </div>
+    </div>
+  </div>
                             </th>
                         </tr>
                     </table>
@@ -377,7 +382,7 @@
         </div>
     </div>
     @endif
-
+</div>
 
 @endsection
 @push('scripts')

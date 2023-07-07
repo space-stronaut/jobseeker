@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - @yield('title')</title>
+    <title>Dashboard - @yield('title')</title>
     
     <link rel="stylesheet" href="{{ asset('mazer/assets/css/main/app.css') }}">
     <link rel="stylesheet" href="{{ asset('mazer/assets/css/main/app-dark.css') }}">
@@ -150,8 +150,8 @@
                                 <li>
                                     <h6 class="dropdown-header">Hello, {{ Auth::user()->name }}!</h6>
                                 </li>
-                                <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
-                                        Wallet</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.index') }}"></i>
+                                        My Profile</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

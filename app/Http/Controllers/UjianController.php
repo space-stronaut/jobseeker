@@ -126,7 +126,7 @@ class UjianController extends Controller
         ]);
 
         Pelamaran::find(Ujian::find($id)->pelamaran_id)->update([
-            'status' => $request->nilai > 70 ? "lolos tahap ujian" : "gagal tahap ujian"
+            'status' => $request->nilai >= 70 ? "lolos tahap ujian" : "gagal tahap ujian"
         ]);
 
         Notification::create([

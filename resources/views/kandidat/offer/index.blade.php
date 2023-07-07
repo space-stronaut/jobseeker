@@ -1,4 +1,4 @@
-@extends('layouts.fe')
+@extends('layouts.carreer')
 
 @section('title')
     Job Offer
@@ -9,60 +9,12 @@
 <link rel="stylesheet" href="{{ asset('mazer/assets/css/pages/datatables.css') }}">
 @endpush
 @section('content')
+<div class="container-fluid">
     <div class="card">
-        @if (Auth::user()->role != "pelamar")
-        <div class="card-header d-flex">
-            <a href="{{ route('job.create') }}" class="btn btn-primary">+ Create Offer</a>
-            <!-- Button trigger modal -->
-<button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Cetak Rekapan
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cetak Rekapan</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="card-header">
+            {{-- <a href="{{ route('job.create') }}" class="btn btn-primary">+ Create Offer</a> --}}
+            Lamaran Tersedia
         </div>
-        <div class="modal-body">
-          <form action="{{ route('pelamar.cetak') }}" method="post">
-            @csrf
-            <div class="form-group">
-                <label for="">Tahap</label>
-                <select name="type" id="" class="form-control">
-                    <option value="">Pilih Tahap</option>
-                    <option value="pelamaran diajukan">Pelamaran Diajukan</option>
-                    <option value="lolos tahap pelamaran">Lolos tahap pelamaran</option>
-                    <option value="telah upload jawaban">Telah upload jawaban</option>
-                    <option value="lolos tahap ujian">Lolos tahap ujian</option>
-                    <option value="pending interview">Pending interview</option>
-                    <option value="diterima">Diterima</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Start Date</label>
-                <input type="date" name="start" id="" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="">End Date</label>
-                <input type="date" name="end" id="" class="form-control">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary mt-2">Print</button>
-            </div>
-        </form>
-        </div>
-        {{-- <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div> --}}
-      </div>
-    </div>
-  </div>
-        </div>
-        @endif
         <div class="card-body">
             @if (Session::get('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -94,7 +46,7 @@
                                 <span class="badge text-uppercase text-bg-{{ $item->status == "close" ? "danger" : "success" }}">{{ $item->status }}</span>
                             </td>
                             <td class="d-flex justify-content-evenly">
-                                @if (Auth::user()->role == "admin")
+                                {{-- @if (Auth::user()->role == "admin")
                                 <div>
                                     <a href="{{ route('job.edit', $item->id) }}" class="btn btn-warning">Edit</a>
                                 </div>
@@ -105,9 +57,9 @@
                                         <button class="btn btn-danger">Hapus</button>
                                     </form>
                                 </div>
-                                @endif
+                                @endif --}}
                                 <div>
-                                    <a href="{{ route('job.show', $item->id) }}" class="btn btn-info">{{ Auth::user()->role != "pelamar" ? 'Detail' : 'Lamar' }}</a>
+                                    <a href="{{ route('kandidatoffer.show', $item->id) }}" class="btn btn-info">{{ Auth::user()->role != "pelamar" ? 'Detail' : 'Lamar' }}</a>
                                 </div>
                             </td>
                         </tr>
@@ -120,6 +72,7 @@
             </table>
         </div>
     </div>
+</div>
 @endsection
 
 @push('scripts')

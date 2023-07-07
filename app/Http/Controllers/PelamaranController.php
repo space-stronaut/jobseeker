@@ -9,6 +9,8 @@ use App\Models\Pelamaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use PDF;
 
 class PelamaranController extends Controller
 {
@@ -43,15 +45,23 @@ class PelamaranController extends Controller
         
 
         $job = JobOffer::find($request->offer_id);
-
-        $data['status_gpa'] = $request->gpa >= $job->gpa ? "verified" : "unverified";
+        if ($request->isFreshGraduate == "true") {
+            $data['isFreshGraduate'] = true;
+        }else{
+            $data['isFreshGraduate'] = false;
+            $data['status_gpa'] = $request->gpa >= $job->gpa ? "verified" : "unverified";
         $data['status_semester'] = $request->semester >= $job->semester ? "verified" : "unverified";
         $data['status_pengalaman_kerja'] = $request->pengalaman_kerja >= $job->pengalaman_kerja ? "verified" : "unverified";
+        }
+
+        // $data['status_gpa'] = $request->gpa >= $job->gpa ? "verified" : "unverified";
+        // $data['status_semester'] = $request->semester >= $job->semester ? "verified" : "unverified";
+        // $data['status_pengalaman_kerja'] = $request->pengalaman_kerja >= $job->pengalaman_kerja ? "verified" : "unverified";
         // $data['deskripsi_pelamar'] = $request->deskripsi;
 
         Pelamaran::create($data);
 
-        $admins = User::where('role', 'admin')->get();
+        $admins = User::where('role', '!=' ,'pelamar')->get();
 
         foreach ($admins as $admin) {
             Notification::create([
@@ -126,5 +136,19 @@ class PelamaranController extends Controller
         } else {
             abort(404, 'File not found');
     }
+    }
+    public function cetak(Request $request)
+    {
+        $pelamarans = Pelamaran::select("*")
+    ->where(DB::raw('date(created_at)'), '>=' , $request->start)
+    ->where(DB::raw('date(created_at)'), '<=' , $request->end)
+    ->where('status', $request->type)
+    ->get();
+        $date = date("Ymd");
+ 
+        $pdf = PDF::loadview('pdf.index',['pelamarans'=>$pelamarans, 'type' => $request->type, 'start' => $request->start, 'end' => $request->end]);
+        return $pdf->download('laporan-pelamaran'. $date .'.pdf');
+
+        // dd($pelamarans);
     }
 }

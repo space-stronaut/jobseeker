@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NotificationMail;
 use App\Models\JobOffer;
 use App\Models\Notification;
 use App\Models\Pelamaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class JobOfferController extends Controller
 {
@@ -45,6 +47,13 @@ class JobOfferController extends Controller
                 'type' => 'info'
             ]);
         }
+
+        $details = [
+            'title' => 'Email Example',
+            'body' => 'This is the body of the email'
+        ];
+    
+        Mail::to('abelr6099@gmail.com')->send(new NotificationMail($details));
 
         return redirect()->route('job.index')->with('success', 'Job Offer Successfully Created!!!');
     }

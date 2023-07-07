@@ -17,12 +17,12 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('offer_id');
             $table->foreign('offer_id')->references('id')->on('job_offers')->onDelete('cascade')->onUpdate('cascade');
-            $table->char('gpa', 25);
-            $table->string('status_gpa');
-            $table->char('semester', 25);
-            $table->string('status_semester');
-            $table->char('pengalaman_kerja', 25);
-            $table->string('status_pengalaman_kerja');
+            $table->decimal('gpa', 25)->nullable();
+            $table->string('status_gpa')->nullable();
+            $table->char('semester', 25)->nullable();
+            $table->string('status_semester')->nullable();
+            $table->char('pengalaman_kerja', 25)->nullable();
+            $table->string('status_pengalaman_kerja')->nullable();
             $table->text('deskripsi_pelamar');
             $table->text('cv')->nullable();
             $table->string('institution')->nullable();

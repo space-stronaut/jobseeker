@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('posisi');
             $table->text('deskripsi');
-            $table->char('gpa', 25);
+            $table->decimal('gpa', 25);
             $table->char('semester', 25);
             $table->char('pengalaman_kerja', 25);
             $table->text('responsible');

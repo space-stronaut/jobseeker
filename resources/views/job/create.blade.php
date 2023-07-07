@@ -15,7 +15,7 @@
                 <input type="hidden" name="status" value="open">
                 <div class="form-group">
                     <label for="">Posisi</label>
-                    <input type="text" name="posisi" id="" class="form-control mt-2">
+                    <input type="text" name="posisi" id="" class="form-control mt-2" required>
                 </div>
                 <div class="form-group">
                     <label for="">Deskripsi</label>
@@ -24,19 +24,19 @@
                 </div>
                 <div class="form-group">
                     <label for="">Min. GPA</label>
-                    <input type="number" name="gpa" id="" class="form-control mt-2">
+                    <input type="number" name="gpa" id="" class="form-control mt-2" step=".01" required>
                 </div>
                 <div class="form-group">
                     <label for="">Min. Semester</label>
-                    <input type="number" name="semester" id="" class="form-control mt-2">
+                    <input type="number" name="semester" id="" class="form-control mt-2" required>
                 </div>
                 <div class="form-group">
                     <label for="">Min. Pengalaman Kerja</label>
-                    <input type="number" name="pengalaman_kerja" id="" class="form-control mt-2">
+                    <input type="number" name="pengalaman_kerja" id="" class="form-control mt-2" required>
                 </div>
                 <div class="form-group">
                     <label for="">Responsible</label>
-                    <textarea name="responsible" id="" cols="30" rows="10" class="form-control"></textarea>
+                    <textarea name="responsible" id="" cols="30" rows="10" class="form-control" required></textarea>
                     {{-- <input type="text" name="posisi" id="" class="form-control mt-2"> --}}
                 </div>
                 <div class="form-group">

@@ -21,21 +21,22 @@
                     <th>GPA</th>
                     <th>:</th>
                     <td>
-                        {{ $pelamaran->gpa }} - <span class="text-uppercase">{{ $pelamaran->status_gpa}}</span>
+                        <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->gpa . " - " . $pelamaran->status_gpa}}</div>
                     </td>
                 </tr>
                 <tr>
                     <th>Semester</th>
                     <th>:</th>
                     <td>
-                        {{ $pelamaran->semester }} - <span class="text-uppercase">{{ $pelamaran->status_semester}}</span>
+                        <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->semester . " - " . $pelamaran->status_semester}}</div>
                     </td>
                 </tr>
                 <tr>
                     <th>Pengalaman Kerja</th>
                     <th>:</th>
                     <td>
-                        {{ $pelamaran->pengalaman_kerja }} - <span class="text-uppercase">{{ $pelamaran->status_pengalaman_kerja}}</span>
+                        {{-- {{ $pelamaran->pengalaman_kerja }} - <span class="text-uppercase">{{ $pelamaran->status_pengalaman_kerja}}</span> --}}
+                        <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->pengalaman_kerja . " - " . $pelamaran->status_pengalaman_kerja}}</div>
                     </td>
                 </tr>
                 <tr>
@@ -66,6 +67,59 @@
                         <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a>
                     </td>
                 </tr>
+                @if ($pelamaran->status == "lolos tahap ujian")
+                <tr>
+                    <th>Skor Ujian</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                @elseif($pelamaran->status == "pending interview")
+                <tr>
+                    <th>Skor Ujian</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                @elseif($pelamaran->status == "diterima")
+                <tr>
+                    <th>Skor Ujian</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Skor Interview</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Interview::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                @elseif($pelamaran->status == "gagal tahap ujian" || $pelamaran->status == "gagal tahap interview" || $pelamaran->status == "tidak diterima interview")
+                <tr>
+                    <th>Skor Ujian</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Skor Interview</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Interview::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                @endif
             </table>
             @if ($pelamaran->status == 'pelamaran diajukan' && Auth::user()->role == "hr")
             <div class="d-flex">
@@ -86,8 +140,8 @@
                                 @csrf
                                 <input type="hidden" name="pelamaran_id" value="{{ $pelamaran->id }}">
                                 <input type="hidden" name="status" value="lolos tahap pelamaran">
-                                <input type="file" name="file_soal" id="" class="form-control">
-                                <input type="date" name="batas_pengerjaan" id="" class="form-control">
+                                <input type="file" name="file_soal" id="" class="form-control" required>
+                                <input type="date" name="batas_pengerjaan" id="" class="form-control" required>
                                 <button class="btn btn-primary mt-3">Submit Soal</button>
                             </form>
                             </div>
@@ -119,7 +173,7 @@
                 @csrf
                 @method('put')
                 <label for="">Batas Pengerjaan</label>
-                <input type="date" name="batas_pengerjaan" value="{{ App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->batas_pengerjaan }}" id="" class="form-control">
+                <input type="date" name="batas_pengerjaan" value="{{ App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->batas_pengerjaan }}" required id="" class="form-control">
                 <button class="btn btn-success">Ubah Batas Pengerjaan</button>
             </form>
             @elseif($pelamaran->status == "telah upload jawaban" && Auth::user()->role == "tm")
@@ -152,13 +206,13 @@
                         {{-- <input type="hidden" name="pelamaran_id" value="{{ $pelamaran->id }}">
                         <input type="hidden" name="status" value="lolos tahap pelamaran">
                         <input type="file" name="file_soal" id="" class="form-control"> --}}
-                        <input type="number" name="nilai" id="" class="form-control">
+                        <input type="number" name="nilai" id="" class="form-control" max="100" required>
                         <button class="btn btn-primary mt-3">Submit Nilai</button>
                     </form>
 
                     <div class="form-group">
-                        > 70 = Berhasil
-                        <= 70 = Gagal
+                        >= 70 = Berhasil
+                        < 70 = Gagal
                     </div>
                     </div>
                 </div>
@@ -171,15 +225,15 @@
                 <input type="hidden" name="pelamaran_id" value="{{ $pelamaran->id }}">
                 <div class="form-group">
                     <label for="">Invitation Title</label>
-                    <input type="text" name="invitation_title" id="" class="form-control">
+                    <input type="text" name="invitation_title" id="" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="">Link Google Meet</label>
-                    <input type="text" name="link_google_meet" id="" class="form-control">
+                    <input type="text" name="link_google_meet" id="" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="">Date Time</label>
-                    <input type="datetime-local" name="waktu" id="" class="form-control" min="<?php echo date('Y-m-d\TH:i'); ?>">
+                    <label for="">Date & Time</label>
+                    <input type="datetime-local" name="waktu" id="" class="form-control" min="<?php echo date('Y-m-d\TH:i'); ?>" required>
                 </div>
                 <div class="form-group mt-2">
                     <button class="btn btn-primary">Submit</button>
@@ -187,6 +241,7 @@
             </form>
             {{-- <a href="" class="btn btn-danger">Tetapkan Sebagai Gagal Tahap Ujian</a> --}}
             @elseif($pelamaran->status == "pending interview" && Auth::user()->role == "tm")
+            <a href="{{ App\Models\Interview::where('pelamaran_id', $pelamaran->id)->get()[0]->link_google_meet }}" class="btn btn-primary">Link Meeting - Jadwal : {{ App\Models\Interview::where('pelamaran_id', $pelamaran->id)->get()[0]->waktu }}</a>
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Beri Nilai
             </button>
@@ -206,13 +261,13 @@
                         {{-- <input type="hidden" name="pelamaran_id" value="{{ $pelamaran->id }}">
                         <input type="hidden" name="status" value="lolos tahap pelamaran">
                         <input type="file" name="file_soal" id="" class="form-control"> --}}
-                        <input type="number" name="nilai" id="" class="form-control">
+                        <input type="number" name="nilai" id="" class="form-control" max="100" required>
                         <button class="btn btn-primary mt-3">Submit Nilai</button>
                     </form>
 
                     <div class="form-group">
-                        > 70 = Berhasil
-                        <= 70 = Gagal
+                        >= 70 = Berhasil
+                        < 70 = Gagal
                     </div>
                     </div>
                 </div>

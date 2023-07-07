@@ -26,7 +26,7 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input id="email" type="email" class="form-control form-control-xl @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    <input id="email" placeholder="Email" type="email" class="form-control form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
@@ -37,11 +37,26 @@
                                 @enderror
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
+                    {{-- <div class="input-group" id="show_hide_password">
+                        <input class="form-control form-control-xl" type="password">
+                        <div class="input-group-addon">
+                          <a href="">Hide</a>
+                        </div>
+                      </div> --}}
                     {{-- <input type="password" class="form-control form-control-xl" placeholder="Password"> --}}
-                    <input id="password" type="password" class="form-control form-control-xl @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                    <div class="input-group">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Enter password" name="password" required autocomplete="current-password">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
+                        </div>
+                      </div>
+                      {{-- <div class="form-control-icon">
+                        <i class="bi bi-shield-lock" id="lock-pw"></i>
+                    </div> --}}
+                    {{-- <input id="password" type="password" class="form-control form-control-xl @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                     <div class="form-control-icon">
-                        <i class="bi bi-shield-lock"></i>
-                    </div>
+                        <i class="bi bi-shield-lock" id="lock-pw"></i>
+                    </div> --}}
                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -66,5 +81,20 @@
 
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var togglePassword = document.getElementById('togglePassword');
+      var passwordInput = document.getElementById('password');
 
+      togglePassword.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          togglePassword.textContent = 'Hide';
+        } else {
+          passwordInput.type = 'password';
+          togglePassword.textContent = 'Show';
+        }
+      });
+    });
+</script>
 </html>

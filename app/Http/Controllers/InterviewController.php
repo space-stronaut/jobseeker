@@ -62,7 +62,7 @@ class InterviewController extends Controller
         ]);
 
         Pelamaran::find(Interview::find($id)->pelamaran_id)->update([
-            'status' => $request->nilai > 70 ? "diterima" : "tidak diterima interview"
+            'status' => $request->nilai >= 70 ? "diterima" : "tidak diterima interview"
         ]);
 
         Notification::create([
