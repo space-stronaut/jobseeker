@@ -127,7 +127,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <h2>Life at PT.ABC</h2>
+                            <h2>Life at Digital Agency</h2>
                             {{-- <h2>Our recent news</h2> --}}
                         </div>
                     </div>
