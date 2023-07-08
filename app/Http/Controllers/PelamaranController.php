@@ -53,7 +53,7 @@ class PelamaranController extends Controller
         }else{
             $data['isFreshGraduate'] = false;
             $data['status_gpa'] = $request->gpa >= $job->gpa ? "verified" : "unverified";
-        $data['status_semester'] = $request->semester >= $job->semester ? "verified" : "unverified";
+        // $data['status_semester'] = $request->semester >= $job->semester ? "verified" : "unverified";
         $data['status_pengalaman_kerja'] = $request->pengalaman_kerja >= $job->pengalaman_kerja ? "verified" : "unverified";
         }
 
