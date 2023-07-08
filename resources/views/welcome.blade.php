@@ -139,10 +139,7 @@
                                 <div class="blog-img">
                                     <img src="{{ asset('frontend/assets/img/blog/home-blog1.jpg') }}" alt="">
                                     <!-- Blog date -->
-                                    <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Now</p>
-                                    </div>
+                                    
                                 </div>
                                 {{-- <div class="blog-cap">
                                     <p>|   Properties</p>
@@ -158,10 +155,7 @@
                                 <div class="blog-img">
                                     <img src="{{ asset('frontend/assets/img/blog/home-blog2.jpg') }}" alt="">
                                     <!-- Blog date -->
-                                    <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Now</p>
-                                    </div>
+                                    
                                 </div>
                                 {{-- <div class="blog-cap">
                                     <p>|   Properties</p>
@@ -177,10 +171,7 @@
                                 <div class="blog-img">
                                     <img src="{{ asset('frontend/assets/img/blog/single_blog_2.png') }}" alt="">
                                     <!-- Blog date -->
-                                    <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Now</p>
-                                    </div>
+                                    
                                 </div>
                                 {{-- <div class="blog-cap">
                                     <p>|   Properties</p>
@@ -196,10 +187,7 @@
                                 <div class="blog-img">
                                     <img src="{{ asset('frontend/assets/img/blog/single_blog_4.png') }}" alt="">
                                     <!-- Blog date -->
-                                    <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Now</p>
-                                    </div>
+                                    
                                 </div>
                                 {{-- <div class="blog-cap">
                                     <p>|   Properties</p>
