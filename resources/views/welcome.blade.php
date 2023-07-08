@@ -169,7 +169,7 @@
                         <div class="home-blog-single mb-30">
                             <div class="blog-img-cap">
                                 <div class="blog-img">
-                                    <img src="{{ asset('frontend/assets/img/blog/single_blog_2.png') }}" alt="">
+                                    <img src="{{ asset('frontend/assets/img/blog/img1.jpg') }}" alt="">
                                     <!-- Blog date -->
                                     
                                 </div>
@@ -185,7 +185,7 @@
                         <div class="home-blog-single mb-30">
                             <div class="blog-img-cap">
                                 <div class="blog-img">
-                                    <img src="{{ asset('frontend/assets/img/blog/single_blog_4.png') }}" alt="">
+                                    <img src="{{ asset('frontend/assets/img/blog/img2.jpg') }}" alt="">
                                     <!-- Blog date -->
                                     
                                 </div>
