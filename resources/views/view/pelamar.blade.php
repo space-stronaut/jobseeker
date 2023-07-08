@@ -32,7 +32,8 @@
                                 <th>GPA</th>
                                 <th>:</th>
                                 <td>
-                                    <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->gpa . " - " . $pelamaran->status_gpa}}</div>
+                                    {{$pelamaran->gpa}} - <span class="text-uppercase"> {{$pelamaran->status_gpa }}</span>
+                                    {{-- <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->gpa . " - " . $pelamaran->status_gpa}}</div> --}}
                                 </td>
                             </tr>
                             <tr>
@@ -46,8 +47,9 @@
                                 <th>Pengalaman Kerja</th>
                                 <th>:</th>
                                 <td>
+                                    {{$pelamaran->pengalaman_kerja}} - <span class="text-uppercase"> {{$pelamaran->status_pengalaman_kerja }}</span>
                                     {{-- {{ $pelamaran->pengalaman_kerja }} - <span class="text-uppercase">{{ $pelamaran->status_pengalaman_kerja}}</span> --}}
-                                    <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->pengalaman_kerja . " - " . $pelamaran->status_pengalaman_kerja}}</div>
+                                    {{-- <div class="text-uppercase">{{ $pelamaran->isFreshGraduate == 1 ? "Fresh Graduate" : $pelamaran->pengalaman_kerja . " - " . $pelamaran->status_pengalaman_kerja}}</div> --}}
                                 </td>
                             </tr>
                             <tr>
