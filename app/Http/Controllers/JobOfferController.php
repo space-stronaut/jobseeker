@@ -46,14 +46,9 @@ class JobOfferController extends Controller
                 'message' => "Lamaran Tersedia : ".$job->posisi,
                 'type' => 'info'
             ]);
-        }
 
-        $details = [
-            'title' => 'Email Example',
-            'body' => 'This is the body of the email'
-        ];
-    
-        Mail::to('abelr6099@gmail.com')->send(new NotificationMail($details));
+            Mail::to($user->email)->send(new NotificationMail("Lowongan Pekerjaan Baru", $job->id));
+        }
 
         return redirect()->route('job.index')->with('success', 'Job Offer Successfully Created!!!');
     }

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\StatusMail;
+use App\Models\JobOffer;
 use App\Models\Notification;
 use App\Models\Pelamaran;
 use App\Models\Ujian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UjianController extends Controller
 {
@@ -47,12 +50,17 @@ class UjianController extends Controller
             'batas_pengerjaan' => $request->batas_pengerjaan
         ]);
 
+        $user = User::find(Pelamaran::find($request->pelamaran_id)->user_id);
+        $job = JobOffer::find(Pelamaran::find($request->pelamaran_id)->offer_id);
+
         Notification::create([
             'sender' => Auth::user()->id,
             'recipient' => Pelamaran::find($request->pelamaran_id)->user_id,
             'message' => "Soal ujian mu untuk posisi ". Pelamaran::find($request->pelamaran_id)->offer->posisi . " telah tersedia",
             'type' => 'info'
         ]);
+
+        Mail::to($user->email)->send(new StatusMail("Selamat Kamu Lolos tahap screening CV untuk posisi : " . $job->posisi . "\n Kamu sekarang ada di tahap Ujian" , Pelamaran::find($request->pelamaran_id), $job));
 
         return redirect()->back();
 
@@ -104,6 +112,7 @@ class UjianController extends Controller
         ]);
 
         $admins = User::where('role', 'admin')->get();
+        $job = JobOffer::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer_id);
 
         foreach ($admins as $admin) {
             Notification::create([
@@ -112,6 +121,8 @@ class UjianController extends Controller
                 'message' => "Jawaban Soal dari User ". Pelamaran::find($ujian->pelamaran_id)->user->name . " untuk posisi ". Pelamaran::find($ujian->pelamaran_id)->offer->posisi ." telah tersedia" ,
                 'type' => 'info'
             ]);
+
+            Mail::to($admin->email)->send(new StatusMail("Jawaban Soal dari User ". Pelamaran::find($ujian->pelamaran_id)->user->name . " untuk posisi ". Pelamaran::find($ujian->pelamaran_id)->offer->posisi ." telah tersedia" , Pelamaran::find($ujian->pelamaran_id), $job));
         }
 
         return redirect()->back()->with('success', 'Berhasil Upload Jawaban');
@@ -129,12 +140,17 @@ class UjianController extends Controller
             'status' => $request->nilai >= 70 ? "lolos tahap ujian" : "gagal tahap ujian"
         ]);
 
+        $user = User::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->user_id);
+        $job = JobOffer::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer_id);
+
         Notification::create([
             'sender' => Auth::user()->id,
             'recipient' => Pelamaran::find(Ujian::find($id)->pelamaran_id)->user_id,
             'message' => "Nilai ujian mu untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah tersedia",
             'type' => 'info'
         ]);
+
+        Mail::to($user->email)->send(new StatusMail("Nilai ujian mu untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah tersedia" , Pelamaran::find(Ujian::find($id)->pelamaran_id), $job));
 
         return redirect()->back();
     }

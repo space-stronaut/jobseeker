@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\JobOffer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,18 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationMail extends Mailable
+class StatusMail extends Mailable
 {
     use Queueable, SerializesModels;
     protected $title;
+    protected $pelamaran;
     protected $job;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($title, $job)
+    public function __construct($title, $pelamaran, $job)
     {
         $this->title = $title;
+        $this->pelamaran = $pelamaran;
         $this->job = $job;
     }
 
@@ -31,7 +32,7 @@ class NotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notification Mail',
+            subject: 'Status Mail',
         );
     }
 
@@ -41,10 +42,11 @@ class NotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'view.status',
             with: [
                 'title' => $this->title,
-                'job' => JobOffer::find($this->job)
+                'pelamaran' => $this->pelamaran,
+                'job' => $this->job
             ]
         );
     }

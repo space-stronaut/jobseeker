@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\StatusMail;
 use App\Models\Interview;
+use App\Models\JobOffer;
 use App\Models\Notification;
 use App\Models\Pelamaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class InterviewController extends Controller
 {
@@ -50,6 +53,12 @@ class InterviewController extends Controller
             'type' => 'info'
         ]);
 
+        $job = JobOffer::find(Pelamaran::find($request->pelamaran_id)->offer_id);
+
+        Mail::to(Pelamaran::find($request->pelamaran_id)->user->email)->send(new StatusMail("Jadwal interviewmu untuk posisi " . Pelamaran::find($request->pelamaran_id)->offer->posisi . " adalah : ".  $interview->waktu, Pelamaran::find($request->pelamaran_id), $job));
+
+        
+
         return redirect()->back();
     }
 
@@ -71,6 +80,10 @@ class InterviewController extends Controller
             'message' => $request->nilai > 70 ? "Selamat Kamu diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi : "Maaf Kamu gagal diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi,
             'type' => 'info'
         ]);
+
+        $job = JobOffer::find(Pelamaran::find(Interview::find($id)->pelamaran_id)->offer_id);
+
+        Mail::to(Pelamaran::find(Interview::find($id)->pelamaran_id)->user->email)->send(new StatusMail($request->nilai > 70 ? "Selamat Kamu diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi : "Maaf Kamu gagal diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi, Pelamaran::find(Interview::find($id)->pelamaran_id), $job));
 
         
 

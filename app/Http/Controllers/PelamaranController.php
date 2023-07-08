@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PelamarBaruMail;
+use App\Mail\StatusMail;
 use App\Models\JobOffer;
 use App\Models\Notification;
 use App\Models\Pelamaran;
@@ -10,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class PelamaranController extends Controller
@@ -59,7 +62,7 @@ class PelamaranController extends Controller
         // $data['status_pengalaman_kerja'] = $request->pengalaman_kerja >= $job->pengalaman_kerja ? "verified" : "unverified";
         // $data['deskripsi_pelamar'] = $request->deskripsi;
 
-        Pelamaran::create($data);
+        $pelamaran = Pelamaran::create($data);
 
         $admins = User::where('role', '!=' ,'pelamar')->get();
 
@@ -70,6 +73,8 @@ class PelamaranController extends Controller
                 'message' => "Pelamar Baru untuk Posisi : " . $job->posisi . " (". Auth::user()->name . ")",
                 'type' => 'info'
             ]);
+
+            Mail::to($admin->email)->send(new PelamarBaruMail("Pelamar Baru Untuk Posisi : ". $job->posisi, $pelamaran->id));
         }
 
         return redirect()->back()->with('success', "Pelamaran Berhasil Diajukan!!!");
@@ -102,12 +107,18 @@ class PelamaranController extends Controller
             'status' => $request->status
         ]);
 
+        $user = User::find(Pelamaran::find($id)->user_id);
+
         Notification::create([
             'sender' => Auth::user()->id,
             'recipient' => Pelamaran::find($id)->user_id,
             'message' => "Status lamaranmu untuk posisi ". Pelamaran::find($id)->offer->posisi . " : " . $request->status,
             'type' => 'info'
         ]);
+
+        $job = JobOffer::find(Pelamaran::find($id)->offer_id);
+
+        Mail::to($user->email)->send(new StatusMail("Status Lamaran : ". $job->posisi, Pelamaran::find($id), $job));
 
         return redirect()->back();
     }

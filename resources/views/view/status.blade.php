@@ -22,22 +22,23 @@
                     <div class="card-body">
                         <table class="table">
                             <tr>
-                                <th>Posisi</th>
+                                <th>Nama Pelamar</th>
                                 <th>:</th>
                                 <td>
-                                    {{$job->posisi}}
+                                    {{ $pelamaran->user->name }}
                                 </td>
                             </tr>
                             <tr>
-                                <th>Responsible</th>
+                                <th>Status lamaran</th>
                                 <th>:</th>
-                                <td>
-                                    {{$job->responsible}}
+                                <td class="text-uppercase">
+                                    {{ $pelamaran->status }}
                                 </td>
                             </tr>
+                            
                         </table>
                         <center>
-                            <a href="{{ route('job.show', $job->id) }}" class="btn btn-primary">Lamar Disini</a>
+                            <a href="{{ route('job.show', $job->id) }}" class="btn btn-primary">Cek Disini</a>
                         </center>
                     </div>
                 </div>
