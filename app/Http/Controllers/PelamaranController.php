@@ -74,7 +74,7 @@ class PelamaranController extends Controller
                 'type' => 'info'
             ]);
 
-            Mail::to($admin->email)->send(new PelamarBaruMail("Pelamar Baru Untuk Posisi : ". $job->posisi, $pelamaran->id));
+            // Mail::to($admin->email)->send(new PelamarBaruMail("Pelamar Baru Untuk Posisi : ". $job->posisi, $pelamaran->id));
         }
 
         return redirect()->back()->with('success', "Pelamaran Berhasil Diajukan!!!");
@@ -118,7 +118,7 @@ class PelamaranController extends Controller
 
         $job = JobOffer::find(Pelamaran::find($id)->offer_id);
 
-        Mail::to($user->email)->send(new StatusMail("Status Lamaran : ". $job->posisi, Pelamaran::find($id), $job));
+        // Mail::to($user->email)->send(new StatusMail("Status Lamaran : ". $job->posisi, Pelamaran::find($id), $job));
 
         return redirect()->back();
     }

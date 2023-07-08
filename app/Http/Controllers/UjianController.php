@@ -60,7 +60,7 @@ class UjianController extends Controller
             'type' => 'info'
         ]);
 
-        Mail::to($user->email)->send(new StatusMail("Selamat Kamu Lolos tahap screening CV untuk posisi : " . $job->posisi . "\n Kamu sekarang ada di tahap Ujian" , Pelamaran::find($request->pelamaran_id), $job));
+        // Mail::to($user->email)->send(new StatusMail("Selamat Kamu Lolos tahap screening CV untuk posisi : " . $job->posisi . "\n Kamu sekarang ada di tahap Ujian" , Pelamaran::find($request->pelamaran_id), $job));
 
         return redirect()->back();
 
@@ -122,7 +122,7 @@ class UjianController extends Controller
                 'type' => 'info'
             ]);
 
-            Mail::to($admin->email)->send(new StatusMail("Jawaban Soal dari User ". Pelamaran::find($ujian->pelamaran_id)->user->name . " untuk posisi ". Pelamaran::find($ujian->pelamaran_id)->offer->posisi ." telah tersedia" , Pelamaran::find($ujian->pelamaran_id), $job));
+            // Mail::to($admin->email)->send(new StatusMail("Jawaban Soal dari User ". Pelamaran::find($ujian->pelamaran_id)->user->name . " untuk posisi ". Pelamaran::find($ujian->pelamaran_id)->offer->posisi ." telah tersedia" , Pelamaran::find($ujian->pelamaran_id), $job));
         }
 
         return redirect()->back()->with('success', 'Berhasil Upload Jawaban');
@@ -150,7 +150,7 @@ class UjianController extends Controller
             'type' => 'info'
         ]);
 
-        Mail::to($user->email)->send(new StatusMail("Nilai ujian mu untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah tersedia" , Pelamaran::find(Ujian::find($id)->pelamaran_id), $job));
+        // Mail::to($user->email)->send(new StatusMail("Nilai ujian mu untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah tersedia" , Pelamaran::find(Ujian::find($id)->pelamaran_id), $job));
 
         return redirect()->back();
     }

@@ -47,7 +47,7 @@ class JobOfferController extends Controller
                 'type' => 'info'
             ]);
 
-            Mail::to($user->email)->send(new NotificationMail("Lowongan Pekerjaan Baru", $job->id));
+            // Mail::to($user->email)->send(new NotificationMail("Lowongan Pekerjaan Baru", $job->id));
         }
 
         return redirect()->route('job.index')->with('success', 'Job Offer Successfully Created!!!');

@@ -55,7 +55,7 @@ class InterviewController extends Controller
 
         $job = JobOffer::find(Pelamaran::find($request->pelamaran_id)->offer_id);
 
-        Mail::to(Pelamaran::find($request->pelamaran_id)->user->email)->send(new StatusMail("Jadwal interviewmu untuk posisi " . Pelamaran::find($request->pelamaran_id)->offer->posisi . " adalah : ".  $interview->waktu, Pelamaran::find($request->pelamaran_id), $job));
+        // Mail::to(Pelamaran::find($request->pelamaran_id)->user->email)->send(new StatusMail("Jadwal interviewmu untuk posisi " . Pelamaran::find($request->pelamaran_id)->offer->posisi . " adalah : ".  $interview->waktu, Pelamaran::find($request->pelamaran_id), $job));
 
         
 
@@ -83,7 +83,7 @@ class InterviewController extends Controller
 
         $job = JobOffer::find(Pelamaran::find(Interview::find($id)->pelamaran_id)->offer_id);
 
-        Mail::to(Pelamaran::find(Interview::find($id)->pelamaran_id)->user->email)->send(new StatusMail($request->nilai > 70 ? "Selamat Kamu diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi : "Maaf Kamu gagal diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi, Pelamaran::find(Interview::find($id)->pelamaran_id), $job));
+        // Mail::to(Pelamaran::find(Interview::find($id)->pelamaran_id)->user->email)->send(new StatusMail($request->nilai > 70 ? "Selamat Kamu diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi : "Maaf Kamu gagal diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi, Pelamaran::find(Interview::find($id)->pelamaran_id), $job));
 
         
 
