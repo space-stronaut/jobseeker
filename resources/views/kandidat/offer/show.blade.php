@@ -84,7 +84,7 @@
                                     {{$item->gpa}} - <span class="text-uppercase"> {{$item->status_gpa }}</span>
                                 </td>
                                 <td>
-                                    {{$item->semester}} - <span class="text-uppercase"> {{$item->status_semester }}</span>
+                                    <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->semester . " - " . $item->status_semester}}</div>
                                 </td>
                                 <td>
                                     {{$item->pengalaman_kerja}} - <span class="text-uppercase"> {{$item->status_pengalaman_kerja }}</span>
@@ -345,12 +345,12 @@
                     <input type="radio" name="isFreshGraduate" value="true" id="ya">Ya
                     <input type="radio" name="isFreshGraduate" value="false" id="tidak">Tidak
                 </div>
-                <div id="klasifikasi">
+                {{-- <div id="klasifikasi"> --}}
                 <div class="form-group">
                     <label for="">GPA</label>
                     <input type="number" name="gpa" class="form-control mt-2" step=".01">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="klasifikasi">
                     <label for="">Semester</label>
                     <input type="number" name="semester" class="form-control mt-2">
                 </div>
@@ -358,7 +358,7 @@
                     <label for="">Pengalaman Kerja</label>
                     <input type="number" name="pengalaman_kerja" class="form-control mt-2">
                 </div>
-                </div>
+                {{-- </div> --}}
                 <div class="form-group">
                     <label for="">Motivation Letter</label>
                     {{-- <input type="number" name="gpa" class="form-control mt-2"> --}}

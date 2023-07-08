@@ -34,13 +34,19 @@
                <tr>
                     <th>{{$item->user->name}}</th>
                     <td>
-                        <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->gpa . " - " .$item->status_gpa}}</div>
+                        {{-- <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->gpa . " - " .$item->status_gpa}}</div> --}}
+                        <div class="text-uppercase">
+                            {{$item->gpa - $item->status_gpa}}
+                        </div>
                     </td>
                     <td>
                         <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->semester . " - " .$item->status_semester}}</div>
                     </td>
                     <td>
-                        <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->pengalaman_kerja . " - " .$item->status_pengalaman_kerja}}</div>
+                        <div class="text-uppercase">
+                            {{$item->pengalaman_kerja - $item->status_pengalaman_kerja}}
+                        </div>
+                        {{-- <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->pengalaman_kerja . " - " .$item->status_pengalaman_kerja}}</div> --}}
                     </td>
                     <td>
                         {{$item->institution}}
