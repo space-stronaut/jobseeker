@@ -101,7 +101,7 @@
                                     {{$item->status}}
                                 </td>
                                 <td>
-                                    <a href="{{ route('pelamaran.show', $item->id) }}" class="btn btn-warning">Detail Lamaran</a>
+                                    <a href="{{ route('pelamaran.show', $item->id) }}" class="btn btn-warning text-black">Detail Lamaran</a>
                                 </td>
                             </tr> 
                         @endforeach

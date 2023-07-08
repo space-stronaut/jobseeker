@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title>Job board </title>
+         <title>PT. ABC | Career </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
@@ -50,11 +50,11 @@
                                 <a href="/"><img src="{{ asset('frontend/assets/img/logo/logo.png') }}" alt=""></a>
                             </div>  
                         </div>
-                        <div class="col-lg-9 col-md-9">
+                        <div class="col-lg-9 col-md-9 ms-2">
                             <div class="menu-wrapper">
                                 <!-- Main-menu -->
                                 <div class="main-menu">
-                                    <nav class="d-none d-lg-block">
+                                    <nav class="d-none d-lg-block ms-3">
                                         <ul id="navigation">
                                             <li><a href="/">Home</a></li>
                                             <li><a href="#about_pages">About</a></li>
