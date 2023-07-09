@@ -111,7 +111,7 @@ class UjianController extends Controller
             'file_jawaban' => $data
         ]);
 
-        $admins = User::where('role', 'admin')->get();
+        $admins = User::where('role', '!=' ,'pelamar')->get();
         $job = JobOffer::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer_id);
 
         foreach ($admins as $admin) {
