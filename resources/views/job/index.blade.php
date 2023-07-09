@@ -96,18 +96,18 @@
                             <td class="d-flex justify-content-evenly">
                                 @if (Auth::user()->role == "admin")
                                 <div>
-                                    <a href="{{ route('job.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ route('job.edit', $item->id) }}" class="btn btn-warning text-black">Edit</a>
                                 </div>
                                 <div>
                                     <form action="{{ route('job.destroy', $item->id) }}" method="post">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger">Hapus</button>
+                                        <button class="btn btn-danger text-black" >Hapus</button>
                                     </form>
                                 </div>
                                 @endif
                                 <div>
-                                    <a href="{{ route('job.show', $item->id) }}" class="btn btn-info">{{ Auth::user()->role != "pelamar" ? 'Detail' : 'Lamar' }}</a>
+                                    <a href="{{ route('job.show', $item->id) }}" class="btn btn-info text-black">{{ Auth::user()->role != "pelamar" ? 'Detail' : 'Lamar' }}</a>
                                 </div>
                             </td>
                         </tr>

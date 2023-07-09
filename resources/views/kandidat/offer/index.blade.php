@@ -59,7 +59,7 @@
                                 </div>
                                 @endif --}}
                                 <div>
-                                    <a href="{{ route('kandidatoffer.show', $item->id) }}" class="btn btn-info">{{ Auth::user()->role != "pelamar" ? 'Detail' : 'Lamar' }}</a>
+                                    <a href="{{ route('kandidatoffer.show', $item->id) }}" class="btn btn-info text-black">{{ Auth::user()->role != "pelamar" ? 'Detail' : 'Lamar' }}</a>
                                 </div>
                             </td>
                         </tr>
