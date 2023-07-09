@@ -26,43 +26,55 @@
             <form method="POST" action="{{ route('register') }}">
                 @csrf
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl @error('email') is-invalid @enderror" name="email" placeholder="Email">
+                    <input type="text" class="form-control  @error('email') is-invalid @enderror" name="email" placeholder="Email">
                     <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl @error('name') is-invalid @enderror" name="name" placeholder="Username">
+                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" placeholder="Username">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password" >
+                    <div class="input-group">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password" name="password" required autocomplete="new-password">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
+                        </div>
+                      </div>
+                    {{-- <input type="password" class="form-control  @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password" >
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password">
+                    {{-- <input type="password" class="form-control " placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
-                    </div>
+                    </div> --}}
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="toggleConfirmation">Show</button>
+                        </div>
+                      </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
                     <label for="">Alamat</label>
-                    <textarea name="alamat" id="" cols="30" rows="10" class="form-control form-control-xl" required></textarea>
-                    {{-- <input type="a" class="form-control form-control-xl" placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password"> --}}
+                    <textarea name="alamat" id="" cols="30" rows="10" class="form-control " required></textarea>
+                    {{-- <input type="a" class="form-control " placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password"> --}}
                     {{-- <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div> --}}
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
                     <label for="">Jenis Kelamin</label>
-                    {{-- <textarea name="alamat" id="" cols="30" rows="10" class="form-control form-control-xl" required></textarea> --}}
+                    {{-- <textarea name="alamat" id="" cols="30" rows="10" class="form-control " required></textarea> --}}
                     <input type="radio" name="jenis_kelamin" value="L" id="">L
                     <input type="radio" name="jenis_kelamin" value="P" id="">P
-                    {{-- <input type="a" class="form-control form-control-xl" placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password"> --}}
+                    {{-- <input type="a" class="form-control " placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password"> --}}
                     {{-- <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div> --}}
@@ -84,5 +96,35 @@
 
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var togglePassword = document.getElementById('togglePassword');
+      var passwordInput = document.getElementById('password');
 
+      togglePassword.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          togglePassword.textContent = 'Hide';
+        } else {
+          passwordInput.type = 'password';
+          togglePassword.textContent = 'Show';
+        }
+      });
+
+      var toggleConfirmation = document.getElementById('toggleConfirmation');
+      var password_confirmation = document.getElementById('password_confirmation');
+
+      toggleConfirmation.addEventListener('click', function() {
+        if (password_confirmation.type === 'password') {
+          password_confirmation.type = 'text';
+          toggleConfirmation.textContent = 'Hide';
+        } else {
+          password_confirmation.type = 'password';
+          toggleConfirmation.textContent = 'Show';
+        }
+      });
+    });
+
+    
+</script>
 </html>
