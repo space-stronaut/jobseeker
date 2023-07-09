@@ -140,7 +140,7 @@
                                 @csrf
                                 <input type="hidden" name="pelamaran_id" value="{{ $pelamaran->id }}">
                                 <input type="hidden" name="status" value="lolos tahap pelamaran">
-                                <input type="file" name="file_soal" id="" class="form-control" required>
+                                <input type="file" name="file_soal" id="" class="form-control" accept=".pdf" required>
                                 <input type="date" name="batas_pengerjaan" id="" class="form-control" required>
                                 <button class="btn btn-primary mt-3">Submit Soal</button>
                             </form>

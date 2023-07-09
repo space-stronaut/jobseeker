@@ -178,7 +178,7 @@
                     <input type="hidden" name="status" value="telah upload jawaban">
                     <div class="form-group">
                         <label for="">File Jawaban</label>
-                    <input type="file" name="file_jawaban" id="" class="form-control">
+                    <input type="file" name="file_jawaban" id="" class="form-control" accept=".pdf" required>
                     </div>
                     <div class="form-group mt-2">
                         <button class="btn btn-primary">Submit Jawaban</button>
