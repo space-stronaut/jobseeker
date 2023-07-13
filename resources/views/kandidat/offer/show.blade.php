@@ -369,7 +369,7 @@
                     <input type="text" name="institution" class="form-control mt-2" required>
                 </div>
                 <div class="form-group">
-                    <label for="">CV</label>
+                    <label for="">CV/Portfolio</label>
                     <input type="file" class="form-control mt-2" name="cv" required>
                     {{-- <input type="number" name="gpa" class="form-control mt-2"> --}}
                 </div>
