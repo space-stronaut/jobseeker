@@ -8,6 +8,7 @@ use App\Models\Interview;
 use App\Models\JobOffer;
 use App\Models\Notification;
 use App\Models\Pelamaran;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -53,6 +54,17 @@ class InterviewController extends Controller
             'type' => 'info'
         ]);
 
+        $tms = User::where('role', 'tm')->get();
+
+        foreach ($tms as $tm) {
+            Notification::create([
+                'sender' => Auth::user()->id,
+                'recipient' => $tm->id,
+                'message' => "Jadwal interview dengan " .User::find(Pelamaran::find($interview->pelamaran_id)->user_id)->name . " posisi ". Pelamaran::find($interview->pelamaran_id)->offer->posisi . " telah keluar",
+                'type' => 'info'
+            ]);
+        }
+
         $job = JobOffer::find(Pelamaran::find($request->pelamaran_id)->offer_id);
 
         // Mail::to(Pelamaran::find($request->pelamaran_id)->user->email)->send(new StatusMail("Jadwal interviewmu untuk posisi " . Pelamaran::find($request->pelamaran_id)->offer->posisi . " adalah : ".  $interview->waktu, Pelamaran::find($request->pelamaran_id), $job));
@@ -80,6 +92,17 @@ class InterviewController extends Controller
             'message' => $request->nilai > 70 ? "Selamat Kamu diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi : "Maaf Kamu gagal diterima di posisi " . Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi,
             'type' => 'info'
         ]);
+
+        $hrs = User::where('role', 'hr')->get();
+
+        foreach ($hrs as $hr) {
+            Notification::create([
+                'sender' => Auth::user()->id,
+                'recipient' => $hr->id,
+                'message' => "Hasil Ujian Kandidat ". User::find(Pelamaran::find(Interview::find($id)->pelamaran_id)->user_id)->name . " untuk posisi ". Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi . "telah keluar",
+                'type' => 'info'
+            ]);
+        }
 
         $job = JobOffer::find(Pelamaran::find(Interview::find($id)->pelamaran_id)->offer_id);
 

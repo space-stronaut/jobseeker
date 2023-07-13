@@ -44,7 +44,7 @@ class UjianController extends Controller
             'file_soal', 'public'
         );
 
-        Ujian::create([
+        $ujian = Ujian::create([
             'pelamaran_id' => $request->pelamaran_id,
             'file_soal' => $data,
             'batas_pengerjaan' => $request->batas_pengerjaan
@@ -59,6 +59,17 @@ class UjianController extends Controller
             'message' => "Soal ujian mu untuk posisi ". Pelamaran::find($request->pelamaran_id)->offer->posisi . " telah tersedia",
             'type' => 'info'
         ]);
+
+        $tms = User::where('role', 'tm')->get();
+
+        foreach ($tms as $tm) {
+            Notification::create([
+                'sender' => Auth::user()->id,
+                'recipient' => $tm->id,
+                'message' => User::find(Pelamaran::find($ujian->pelamaran_id)->user_id)->name . " telah submit jawaban ". Pelamaran::find($ujian->pelamaran_id)->offer->posisi . ", segera cek dan beri nilai!",
+                'type' => 'info'
+            ]);
+        }
 
         // Mail::to($user->email)->send(new StatusMail("Selamat Kamu Lolos tahap screening CV untuk posisi : " . $job->posisi . "\n Kamu sekarang ada di tahap Ujian" , Pelamaran::find($request->pelamaran_id), $job));
 
@@ -159,6 +170,17 @@ class UjianController extends Controller
             'message' => "Nilai ujian mu untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah tersedia",
             'type' => 'info'
         ]);
+
+        $hrs = User::where('role', 'hr')->get();
+
+        foreach ($hrs as $hr) {
+            Notification::create([
+                'sender' => Auth::user()->id,
+                'recipient' => $hr->id,
+                'message' => "Hasil Ujian Kandidat ". User::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->user_id)->name . " untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . "telah keluar",
+                'type' => 'info'
+            ]);
+        }
 
         // Mail::to($user->email)->send(new StatusMail("Nilai ujian mu untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah tersedia" , Pelamaran::find(Ujian::find($id)->pelamaran_id), $job));
 
