@@ -25,6 +25,7 @@
                 <th>Semester</th>
                 <th>Pengalaman Kerja</th>
                 <th>Institusi/Universitas</th>
+                <th>Posisi</th>
                 {{-- <th>CV</th> --}}
                 {{-- <th>Action</th> --}}
             </tr>
@@ -50,6 +51,9 @@
                     </td>
                     <td>
                         {{$item->institution}}
+                    </td>
+                    <td>
+                        {{$item->offer->posisi}}
                     </td>
                 </tr> 
             @endforeach
