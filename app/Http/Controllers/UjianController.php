@@ -72,6 +72,16 @@ class UjianController extends Controller
             'batas_pengerjaan' => $request->batas_pengerjaan
         ]);
 
+        $ujian = Ujian::find($id);
+        $job = JobOffer::find(Pelamaran::find($ujian->pelamaran_id)->offer_id)->posisi;
+
+        Notification::create([
+            'sender' => Auth::user()->id,
+            'recipient' => Pelamaran::find($ujian->pelamaran_id)->user_id,
+            'message' => "Batas pengumpulan ujian untuk posisi ". $job . " telah dirubah ke : ". $request->batas_pengerjaan,
+            'type' => 'info'
+        ]);
+
         return redirect()->back();
     }
 

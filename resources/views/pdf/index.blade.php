@@ -36,7 +36,7 @@
                     <td>
                         {{-- <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->gpa . " - " .$item->status_gpa}}</div> --}}
                         <div class="text-uppercase">
-                            {{$item->gpa - $item->status_gpa}}
+                            {{$item->gpa }} - {{$item->status_gpa}}
                         </div>
                     </td>
                     <td>
@@ -44,7 +44,7 @@
                     </td>
                     <td>
                         <div class="text-uppercase">
-                            {{$item->pengalaman_kerja - $item->status_pengalaman_kerja}}
+                            {{$item->pengalaman_kerja}} - {{$item->status_pengalaman_kerja}}
                         </div>
                         {{-- <div class="text-uppercase">{{ $item->isFreshGraduate == 1 ? "Fresh Graduate" : $item->pengalaman_kerja . " - " .$item->status_pengalaman_kerja}}</div> --}}
                     </td>
