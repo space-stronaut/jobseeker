@@ -177,7 +177,7 @@ class UjianController extends Controller
             Notification::create([
                 'sender' => Auth::user()->id,
                 'recipient' => $hr->id,
-                'message' => "Hasil Ujian Kandidat ". User::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->user_id)->name . " untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . "telah keluar",
+                'message' => "Hasil Kompetensi Test Kandidat ". User::find(Pelamaran::find(Ujian::find($id)->pelamaran_id)->user_id)->name . " untuk posisi ". Pelamaran::find(Ujian::find($id)->pelamaran_id)->offer->posisi . " telah keluar",
                 'type' => 'info'
             ]);
         }

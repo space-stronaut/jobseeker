@@ -99,7 +99,7 @@ class InterviewController extends Controller
             Notification::create([
                 'sender' => Auth::user()->id,
                 'recipient' => $hr->id,
-                'message' => "Hasil Ujian Kandidat ". User::find(Pelamaran::find(Interview::find($id)->pelamaran_id)->user_id)->name . " untuk posisi ". Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi . "telah keluar",
+                'message' => "Hasil Interview ". User::find(Pelamaran::find(Interview::find($id)->pelamaran_id)->user_id)->name . " untuk posisi ". Pelamaran::find(Interview::find($id)->pelamaran_id)->offer->posisi . " telah keluar",
                 'type' => 'info'
             ]);
         }
