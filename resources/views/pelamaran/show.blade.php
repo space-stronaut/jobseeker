@@ -102,7 +102,32 @@
                         {{App\Models\Interview::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
                     </td>
                 </tr>
-                
+                @elseif($pelamaran->status == "gagal tahap ujian")
+                <tr>
+                    <th>Skor Ujian</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                @elseif($pelamaran->status == "gagal tahap interview" || $pelamaran->status == "tidak diterima interview")
+                <tr>
+                    <th>Skor Ujian</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Ujian::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Skor Interview</th>
+                    <th>:</th>
+                    <td>
+                        {{-- <a href="{{ route('pelamaran.download', $pelamaran->id) }}" class="btn btn-info">Download CV</a> --}}
+                        {{App\Models\Interview::where('pelamaran_id', $pelamaran->id)->get()[0]->nilai}}
+                    </td>
+                </tr>
                 @endif
             </table>
             @if ($pelamaran->status == 'pelamaran diajukan' && Auth::user()->role == "hr")
